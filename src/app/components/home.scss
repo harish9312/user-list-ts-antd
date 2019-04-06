@@ -1,0 +1,96 @@
+.card {
+    background: #fff;
+    border-radius: 2px;
+    display: inline-block;
+    margin: 1rem;
+    position: relative;
+}
+
+.search-bar-container {
+    padding: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    input {
+        width: 300px;
+        height: 40px;
+    }
+}
+
+.header {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 30px;
+}
+
+.user-card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .card-1 {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+
+        &:hover {
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        .ant-card-body {
+            padding: 0px;
+        }
+
+        .avatar {
+            padding: 30px;
+            border: 1px solid gainsboro;
+            border-radius: 100%;
+            margin: 23px;
+
+        }
+
+        .user-info {
+            padding: 10px;
+            font-size: 16px;
+            border-top: 1px solid #cec8c8;
+        }
+
+        .username {
+            font-size: 19px;
+            padding: 14px 0px;
+        }
+
+        .anticon {
+            font-size: 23px;
+            margin-right: 10px;
+        }
+
+        .user-data {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 0px;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-top: 1px solid #d4d4d4;
+            background-color: #9ebd6d;
+            color: white;
+
+            .anticon-heart {
+
+                color: #e42a2a;
+            }
+
+            .is-liked {
+                color: #e42a2a;
+            }
+        }
+
+    }
+}

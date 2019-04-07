@@ -20,21 +20,34 @@ export interface IModalState {
     isVisible?: boolean;
 }
 
+/**
+ * Shows modal popup using antd modal library.
+ * @class ANTModalImpl
+ * @extends {React.PureComponent<IModalProps, IModalState>}
+ */
 export class ANTModalImpl extends React.PureComponent<IModalProps, IModalState> {
     constructor(props: IModalProps) {
         super(props);
         this.state = { name: '', email: '', username: '', phone: '', website: '', isVisible: false }
     }
 
+    /**
+     * Checks if the new id is there to show the modal and toggles modal visibility accordingly.
+     * @param {IModalProps} nextProps
+     * @memberof ANTModalImpl
+     */
     componentWillReceiveProps(nextProps: IModalProps) {
         if (nextProps.id && this.props.id !== nextProps.id) {
             const userInstance = UserModel.get(nextProps.id);
-            console.log('>> userInstance', userInstance);
             const { name, email, phone, website, username } = userInstance.props;
             this.setState({ name, email, phone, website, username, isVisible: true })
         }
     }
 
+    /**
+     * Executes if user presses OK Button on the Modal
+     * @memberof ANTModalImpl
+     */
     handleOk = () => {
         let hasFormError = null;
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -50,12 +63,21 @@ export class ANTModalImpl extends React.PureComponent<IModalProps, IModalState> 
         this.props.onClose()
     }
 
+    /**
+     * Executes if the user clicks on the Cancel.
+     * @memberof ANTModalImpl
+     */
     handleCancel = () => {
         this.setState({ isVisible: false })
         this.props.form.resetFields();
         this.props.onClose()
     }
 
+    /**
+     * Changes the value of input dynamically using the name attribute.
+     * @param {React.ChangeEvent<HTMLInputElement>} event
+     * @memberof ANTModalImpl
+     */
     handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             [event.target.name]: event.target.value

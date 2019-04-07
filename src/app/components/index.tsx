@@ -6,7 +6,7 @@ import Input from 'antd/lib/Input';
 import Popconfirm from 'antd/lib/Popconfirm';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { UserModel } from '../models/UserModel';
+import { UserModel, IUserModelProps } from '../models/UserModel';
 import { getUserData } from '../services/baseService';
 import './home.scss';
 import { Loader } from './Loader';
@@ -23,31 +23,60 @@ export interface IHomeState {
     searchValue: string;
 }
 
+/**
+ * HomePage to show the list of users and search bar.
+ * @class HomeImpl
+ * @extends {React.Component<IHomeProps, IHomeState>}
+ */
 export class HomeImpl extends React.Component<IHomeProps, IHomeState> {
     constructor(props: IHomeProps) {
         super(props);
         this.state = { filteredUsers: [], searchValue: '', isLoading: true, editingUserId: '' }
     }
 
+    /**
+     * Calls the API to get the list of users once the component has been mounted.
+     * @memberof HomeImpl
+     */
     async componentDidMount() {
         await getUserData();
         this.setState({ isLoading: false })
     }
 
-    handleLikeClick = (props) => {
+    /**
+     * Saves a like when user clicks on the Like Icon
+     * @param {IUserModelProps}  props
+     * @memberof HomeImpl
+     */
+    handleLikeClick = (props: IUserModelProps) => {
         new UserModel({ ...props, isLiked: !props.isLiked }).$update()
     }
 
-    handleUserDelete = (userId) => {
+    /**
+     * Deletes the instance from the list.
+     * @param {string} userId 
+     * @memberof HomeImpl
+     */
+    handleUserDelete = (userId: string) => {
         new UserModel({}).$delete(userId);
     }
 
-    handleEdit = (userId) => {
+    /**
+     * Toggles the Modal upton user clicks on the pencil icon.
+     * @param {string} userId
+     * @memberof HomeImpl
+     */
+    handleEdit = (userId: string) => {
         this.setState({
             editingUserId: userId
         })
     }
 
+    /**
+     * Returns the userInstances according to the search of no search text is available then returns all.
+     * @returns {UserModel[]}
+     * @memberof HomeImpl
+     */
     getUserList = () => {
         const { searchValue } = this.state;
         if (searchValue.length <= 0) {
@@ -56,6 +85,10 @@ export class HomeImpl extends React.Component<IHomeProps, IHomeState> {
         return UserModel.getFilteredByName(searchValue);
     }
 
+    /**
+     * Renders the User List using a Stateless component.
+     * @memberof HomeImpl
+     */
     renderUserData = () => {
         return (this.getUserList() || []).map((userInstance, index) =>
             <UserCard
